@@ -227,7 +227,11 @@ public:
 		front = (front + 1) % frame_buffers.size();
 
 		if (vsync_mode != DisplayServerEnums::VSYNC_DISABLED) {
+#if TARGET_OS_SIMULATOR
+			p_cmd_buffer->get_command_buffer()->presentDrawable(drawable);
+#else
 			p_cmd_buffer->get_command_buffer()->presentDrawableAfterMinimumDuration(drawable, present_minimum_duration);
+#endif
 		} else {
 			p_cmd_buffer->get_command_buffer()->presentDrawable(drawable);
 		}

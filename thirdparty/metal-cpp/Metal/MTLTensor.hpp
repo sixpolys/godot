@@ -134,7 +134,9 @@ public:
 
 }
 
+#if !defined(VISIONOS_SIMULATOR)
 _MTL_PRIVATE_DEF_CONST(NS::ErrorDomain, TensorDomain);
+#endif
 
 _MTL_INLINE MTL::TensorExtents* MTL::TensorExtents::alloc()
 {

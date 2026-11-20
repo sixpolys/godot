@@ -2923,6 +2923,7 @@ Error RenderingDeviceDriverMetal::_initialize(uint32_t p_device_index, uint32_t 
 	}
 
 	// The Metal renderer requires Apple4 family. This is 2017 era A11 chips and newer.
+#if !TARGET_OS_SIMULATOR
 	if (device_properties->features.highestFamily < MTL::GPUFamilyApple4) {
 		String error_string = vformat("Your Apple GPU does not support the following features, which are required to use Metal-based renderers in Godot:\n\n");
 		if (!device_properties->features.imageCubeArray) {
@@ -2938,6 +2939,7 @@ Error RenderingDeviceDriverMetal::_initialize(uint32_t p_device_index, uint32_t 
 
 		return ERR_CANT_CREATE;
 	}
+#endif
 
 	return OK;
 }

@@ -104,7 +104,9 @@ public:
 };
 
 }
+#if !defined(VISIONOS_SIMULATOR)
 _MTL_PRIVATE_DEF_CONST(NS::ErrorDomain, IOErrorDomain);
+#endif
 _MTL_INLINE MTL::IOCommandBuffer* MTL::IOCommandQueue::commandBuffer()
 {
     return Object::sendMessage<MTL::IOCommandBuffer*>(this, _MTL_PRIVATE_SEL(commandBuffer));

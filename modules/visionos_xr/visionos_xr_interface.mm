@@ -308,7 +308,11 @@ void VisionOSXRInterface::RenderThread::set_current_frame(uint64_t p_current_fra
 
 uint32_t VisionOSXRInterface::RenderThread::get_view_count() {
 	// No need for ERR_NOT_ON_RENDER_THREAD
+#ifdef VISIONOS_SIMULATOR
+	return 1;
+#else
 	return 2;
+#endif
 }
 
 Transform3D VisionOSXRInterface::RenderThread::get_camera_transform() {

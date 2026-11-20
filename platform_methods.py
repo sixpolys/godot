@@ -359,6 +359,34 @@ def setup_swift_builder(env, apple_platform, sdk_path, current_path, bridging_he
         "-I./",  # Pass the current directory as the header root so bridging headers can include files from any point of the hierarchy
     ]
 
+    # Xcode 27 exposes SwiftUI property wrappers as external macros. Direct
+    # swift-frontend builds must point at the platform's host macro plugins.
+    swift_plugin_paths = [
+        os.path.normpath(os.path.join(sdk_path, "..", "..", "usr", "lib", "swift", "host", "plugins"))
+    ]
+    if apple_platform == "visionossimulator":
+        swift_plugin_paths.append(
+            os.path.normpath(
+                os.path.join(
+                    sdk_path,
+                    "..",
+                    "..",
+                    "..",
+                    "..",
+                    "XROS.platform",
+                    "Developer",
+                    "usr",
+                    "lib",
+                    "swift",
+                    "host",
+                    "plugins",
+                )
+            )
+        )
+    for swift_plugin_path in swift_plugin_paths:
+        if os.path.isdir(swift_plugin_path):
+            env.Append(SWIFTCFLAGS=["-plugin-path", swift_plugin_path])
+
     if "osxcross" in env:
         env.Append(
             SWIFTCFLAGS=[
