@@ -1061,7 +1061,10 @@ public:
 		_FORCE_INLINE_ void apply(T *p_enc) const {
 			p_enc->setCullMode(cull_mode);
 			p_enc->setTriangleFillMode(fill_mode);
+#if !TARGET_OS_SIMULATOR
+			// The simulator's Metal device doesn't support depth clip modes; it always clips.
 			p_enc->setDepthClipMode(clip_mode);
+#endif
 			p_enc->setFrontFacingWinding(winding);
 			depth_bias.apply(p_enc);
 			stencil.apply(p_enc);
